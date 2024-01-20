@@ -110,6 +110,17 @@ body {
 
 </style>
 
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,16 +173,15 @@ body {
         }
 
         function parseSRT(srtText) {
-            // Implement your own SRT parsing logic here
-            // For simplicity, this example assumes a basic structure
-            // You might want to use a library for more robust parsing
-            const lines = srtText.split('\n');
+            const lines = srtText.trim().split('\n\n');
             const subtitles = [];
 
-            for (let i = 0; i < lines.length; i += 4) {
-                const startTime = lines[i + 1].split(' --> ')[0];
-                const text = lines[i + 2].trim();
-                subtitles.push({ startTime, text });
+            for (const line of lines) {
+                const [time, ...textLines] = line.split('\n');
+                const [start, end] = time.split(' --> ');
+                const text = textLines.join('\n').trim();
+
+                subtitles.push({ start, end, text });
             }
 
             return subtitles;
@@ -190,24 +200,27 @@ body {
                     if (index + 1 < subtitles.length) {
                         showSubtitle(index + 1);
                     }
-                }, getTimeDifference(subtitles[index].startTime));
+                }, getTimeDifference(subtitles[index].end) - getTimeDifference(subtitles[index].start));
             }
 
             showSubtitle(currentIndex);
         }
 
-        function getTimeDifference(startTime) {
-            // Implement your own time parsing logic here
-            // For simplicity, this example assumes HH:MM:SS format
-            const parts = startTime.split(':');
-            const hours = parseInt(parts[0], 10);
-            const minutes = parseInt(parts[1], 10);
-            const seconds = parseFloat(parts[2].replace(',', '.'));
-
+        function getTimeDifference(time) {
+            const [hours, minutes, seconds] = time.split(':').map(parseFloat);
             return (hours * 3600 + minutes * 60 + seconds) * 1000;
         }
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
