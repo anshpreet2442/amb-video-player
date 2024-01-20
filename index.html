@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Mkv Video Player </title>
+  <link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FFA500"> <!-- Set the theme color to orange (#FFA500) -->
+   <link rel="icon" type="image/x-icon" href="">
+<meta name="description" content="First Ambient Video Player to Play MKV files in your browser. By Anshpreet">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="info">
+ MADE BY ANSHPREET</strong>  <a href="https://etus.link/anshpreet" target="_blank">HELP</a>.
+</div>
+<div class="wrapper">
+  <div class="player">
+    <body>
+
+    <div>
+      <label for="videoUrl">Enter Video URL:</label>
+      <input type="text" id="videoUrl" placeholder="Enter video URL">
+      <button onclick="playVideo()">Play Video</button>
+    </div>
+
+    <video id="video" controls></video>
+
+    <script>
+      function playVideo() {
+        var videoUrl = $('#videoUrl').val();
+        $('#video').attr('src', videoUrl);
+        $('#video')[0].load();
+        $('#video')[0].play();
+      }
+    </script>
+
+    <!-- Available video files:
+    sports.mp4
+    video.mp4
+    gopro.mp4
+    -->
+  
+    <canvas id="myCanvas" width="600" height="337"></canvas>
+  </div>
+</div>
+<!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
+<audio id="myAudio" src="https://etus.link/playbg-replits" preload="auto"></audio>
+
+<script>
+  const audio = document.getElementById('myAudio');
+  const keysToListen = [
+    'Space', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL',
+    'ShiftLeft', 'OSLeft', 'AltLeft', 'Enter', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5',
+    'Escape', 'KeyW', 'ControlLeft', 'KeyW', 'KeyA'
+    // Add more keys as needed in the same format
+  ];
+
+  let isAudioPlaying = false;
+
+  document.addEventListener('keydown', function(event) {
+    const key = event.code;
+    if (keysToListen.includes(key)) {
+      if (isAudioPlaying) {
+        audio.pause();
+        isAudioPlaying = false;
+      } else {
+        audio.play();
+        isAudioPlaying = true;
+      }
+    }
+  });
+</script>
