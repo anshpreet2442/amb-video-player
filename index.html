@@ -109,3 +109,105 @@ body {
 
 
 </style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtitle Viewer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="subtitleFile" accept=".srt" />
+    <button onclick="loadSubtitles()">Submit</button>
+
+    <div id="toast"></div>
+
+    <script>
+        function loadSubtitles() {
+            const fileInput = document.getElementById('subtitleFile');
+
+            if (fileInput.files.length === 0) {
+                alert('Please select a valid SRT file.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const subtitles = parseSRT(event.target.result);
+                displaySubtitles(subtitles);
+            };
+
+            reader.readAsText(file);
+        }
+
+        function parseSRT(srtText) {
+            // Implement your own SRT parsing logic here
+            // For simplicity, this example assumes a basic structure
+            // You might want to use a library for more robust parsing
+            const lines = srtText.split('\n');
+            const subtitles = [];
+
+            for (let i = 0; i < lines.length; i += 4) {
+                const startTime = lines[i + 1].split(' --> ')[0];
+                const text = lines[i + 2].trim();
+                subtitles.push({ startTime, text });
+            }
+
+            return subtitles;
+        }
+
+        function displaySubtitles(subtitles) {
+            let currentIndex = 0;
+
+            function showSubtitle(index) {
+                const toast = document.getElementById('toast');
+                toast.innerText = subtitles[index].text;
+                toast.style.display = 'block';
+
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                    if (index + 1 < subtitles.length) {
+                        showSubtitle(index + 1);
+                    }
+                }, getTimeDifference(subtitles[index].startTime));
+            }
+
+            showSubtitle(currentIndex);
+        }
+
+        function getTimeDifference(startTime) {
+            // Implement your own time parsing logic here
+            // For simplicity, this example assumes HH:MM:SS format
+            const parts = startTime.split(':');
+            const hours = parseInt(parts[0], 10);
+            const minutes = parseInt(parts[1], 10);
+            const seconds = parseFloat(parts[2].replace(',', '.'));
+
+            return (hours * 3600 + minutes * 60 + seconds) * 1000;
+        }
+    </script>
+</body>
+</html>
+
+
