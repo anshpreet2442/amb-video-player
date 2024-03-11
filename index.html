@@ -22,22 +22,20 @@
     <body>
 
     <div>
-    <label for="videoUrl">Enter Video URL:</label>
+  <label for="videoUrl">Enter Video URL:</label>
     <input type="text" id="videoUrl" placeholder="Enter video URL">
 
     <script>
-        // Function to get the fragment (value after '#') from the URL
-        function getFragmentFromUrl() {
+        // Function to extract URL fragment value
+        function getFragment() {
             return window.location.hash.substring(1);
         }
 
-        // Get the fragment from the URL
-        var videoUrlFragment = getFragmentFromUrl();
+        // Get the fragment value
+        var videoUrlFragment = getFragment();
 
-        // Set the value of the text field if the fragment is present
-        if (videoUrlFragment) {
-            document.getElementById('videoUrl').value = videoUrlFragment;
-        }
+        // Set the value of the text field without displaying it
+        document.getElementById('videoUrl').value = videoUrlFragment;
     </script>
       <button onclick="playVideo()">Play Video</button>
     </div>
