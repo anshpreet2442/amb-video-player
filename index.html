@@ -22,29 +22,21 @@
     <body>
 
     <div>
-      <label for="videoUrl">Enter Video URL:</label>
+    <label for="videoUrl">Enter Video URL:</label>
     <input type="text" id="videoUrl" placeholder="Enter video URL">
 
     <script>
-        // Function to extract URL parameter value by name
-        function getParameterByName(name, url) {
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        // Function to get the fragment (value after '#') from the URL
+        function getFragmentFromUrl() {
+            return window.location.hash.substring(1);
         }
 
-        // Get the full URL of the page
-        var currentUrl = window.location.href;
+        // Get the fragment from the URL
+        var videoUrlFragment = getFragmentFromUrl();
 
-        // Extract the value of the 'urlhere' parameter from the URL
-        var videoUrlParameter = getParameterByName('urlhere', currentUrl);
-
-        // Set the value of the text field if the parameter is present
-        if (videoUrlParameter) {
-            document.getElementById('videoUrl').value = videoUrlParameter;
+        // Set the value of the text field if the fragment is present
+        if (videoUrlFragment) {
+            document.getElementById('videoUrl').value = videoUrlFragment;
         }
     </script>
       <button onclick="playVideo()">Play Video</button>
